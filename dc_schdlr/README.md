@@ -31,12 +31,15 @@ Accepts following commands from stdin:
 
 `state # print current jobs and resource statistics`
 
-`submit <num_tasks> <task-duration> <per-task-cpus> <per-task-memory> # to submit a job`
+`submit <user-id> <num_tasks> <task-duration> <per-task-cpus> <per-task-memory> # to submit a job`
 
-`step n # step the simulation by n time units`
+`step <n> # step the simulation by n time units`
 
 ## Sample run
+
 ```
+$ dc_schdlr
+Starting config:Num of Machines: 20, Cpus per machine: 8, Memory per machine: 64
 submit user-1 20 4 4 24
 submit user-2 15 10 3 20
 submit user-3 10 7 2 16
