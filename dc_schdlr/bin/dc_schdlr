@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby -w
+# coding: utf-8
+
+# Currently using two level scheduling
+
+#require 'dc_schdlr'
+require 'dc_schdlr_userpool_job'
+#require 'dc_schdlr_desim'
+
+
+if ['--help', 'help'].include?(ARGV[0])
+  puts "USAGE: dc_schdlr [--help]
+  Accepts following commands:
+
+  submit <userid> <num_tasks> <task_duration> <pertask_cpus> <pertask_mem> 
+  step <time n> # Step the simulation by n time units
+  state # print the state of jobs
+  "
+  exit 0
+end
+
+# simulator = DcSchdlr::Simulator.new
+simulator = DcSchdlr::UserSchldrSimulator.new
+# simulator = DcSchdlr::MySimulator.new
+
+puts "Starting config:"\
+     "Num of Machines: #{DcSchdlr::DCResourcePool::NUM_MACHINES}, "\
+     "Cpus per machine: #{DcSchdlr::DCResourcePool::CPUS_PER_MACHINE}, "\
+     "Memory per machine: #{DcSchdlr::DCResourcePool::MEMORY_PER_MACHINE}\n"
+
+while (input = gets)
+  if input.strip == 'state'
+    simulator.state
+  elsif input.include?('submit')
+    cmd = input.split
+    if cmd.length != 6
+      $stderr.puts("Wrong number of arguments. "\
+        "Input format: submit <num_tasks> <task_duration> <pertask_cpus> <pertask_mem>")
+      next
+    end
+    userid = cmd[1]
+    num_tasks = cmd[2].to_i
+    duration = cmd[3].to_i
+    pertask_cpus = cmd[4].to_i
+    pertask_mem = cmd[5].to_i
+    simulator.submit_job(userid,num_tasks, duration, pertask_cpus, pertask_mem)
+  elsif input.include?('step')
+    cmd = input.split
+    time_units = cmd[1].strip.to_f
+    simulator.step_time(time_units)
+    #simulator.step(time_units)
+  elsif input.strip == 'quit'
+    puts 'Exiting...Bye!'
+    exit 0
+  else
+    $stderr.puts "Unrecognized command #{input}"
+  end
+
+end
