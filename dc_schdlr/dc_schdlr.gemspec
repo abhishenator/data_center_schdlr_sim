@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "dc_schdlr"
   spec.version       = DcSchdlr::VERSION
   spec.authors       = ["abhishek arora"]
-  spec.email         = ["abhishek@altiscale.com"]
+  spec.email         = ["abhishenator@gmail.com"]
   spec.summary       = %q{Data Center Scheduler}
   spec.description   = %q{Data Center Scheduler}
   spec.homepage      = ""
